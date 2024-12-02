@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Cartes{% endblock %}
+
+{% block body %}
+    <h1>Cartes</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ carte.id }}</td>
+            </tr>
+            <tr>
+                <th>IdCarte</th>
+                <td>{{ carte.idCarte }}</td>
+            </tr>
+            <tr>
+                <th>Titre</th>
+                <td>{{ carte.titre }}</td>
+            </tr>
+            <tr>
+                <th>DateCreation</th>
+                <td>{{ carte.dateCreation ? carte.dateCreation|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>DateFinPrevu</th>
+                <td>{{ carte.dateFinPrevu ? carte.dateFinPrevu|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>DateFin</th>
+                <td>{{ carte.dateFin ? carte.dateFin|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Etat</th>
+                <td>{{ carte.etat }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_cartes_index') }}">back to list</a>
+
+    <a href="{{ path('app_cartes_edit', {'id': carte.id}) }}">edit</a>
+
+    {{ include('cartes/_delete_form.html.twig') }}
+{% endblock %}
