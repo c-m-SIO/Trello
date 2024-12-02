@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Colonnes{% endblock %}
+
+{% block body %}
+    <h1>Edit Colonnes</h1>
+
+    {{ include('colonnes/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_colonnes_index') }}">back to list</a>
+
+    {{ include('colonnes/_delete_form.html.twig') }}
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Colonnes{% endblock %}
+
+{% block body %}
+    <h1>Create new Colonnes</h1>
+
+    {{ include('colonnes/_form.html.twig') }}
+
+    <a href="{{ path('app_colonnes_index') }}">back to list</a>
+{% endblock %}

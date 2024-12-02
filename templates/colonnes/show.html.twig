@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Colonnes{% endblock %}
+
+{% block body %}
+    <h1>Colonnes</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ colonne.id }}</td>
+            </tr>
+            <tr>
+                <th>IdColonne</th>
+                <td>{{ colonne.idColonne }}</td>
+            </tr>
+            <tr>
+                <th>Titre</th>
+                <td>{{ colonne.titre }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_colonnes_index') }}">back to list</a>
+
+    <a href="{{ path('app_colonnes_edit', {'id': colonne.id}) }}">edit</a>
+
+    {{ include('colonnes/_delete_form.html.twig') }}
+{% endblock %}
