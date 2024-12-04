@@ -15,10 +15,7 @@ class Colonnes
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(nullable: true)]
-    private ?int $idColonne = null;
-
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(length: 255)]
     private ?string $titre = null;
 
     /**
@@ -40,24 +37,12 @@ class Colonnes
         return $this->id;
     }
 
-    public function getIdColonne(): ?int
-    {
-        return $this->idColonne;
-    }
-
-    public function setIdColonne(?int $idColonne): static
-    {
-        $this->idColonne = $idColonne;
-
-        return $this;
-    }
-
     public function getTitre(): ?string
     {
         return $this->titre;
     }
 
-    public function setTitre(?string $titre): static
+    public function setTitre(string $titre): static
     {
         $this->titre = $titre;
 

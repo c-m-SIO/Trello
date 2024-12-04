@@ -12,28 +12,32 @@
                 <td>{{ carte.id }}</td>
             </tr>
             <tr>
-                <th>IdCarte</th>
-                <td>{{ carte.idCarte }}</td>
-            </tr>
-            <tr>
                 <th>Titre</th>
                 <td>{{ carte.titre }}</td>
             </tr>
             <tr>
-                <th>DateCreation</th>
-                <td>{{ carte.dateCreation ? carte.dateCreation|date('Y-m-d') : '' }}</td>
+                <th>Date_creation</th>
+                <td>{{ carte.dateCreation ? carte.dateCreation|date('Y-m-d H:i:s') : '' }}</td>
             </tr>
             <tr>
-                <th>DateFinPrevu</th>
-                <td>{{ carte.dateFinPrevu ? carte.dateFinPrevu|date('Y-m-d') : '' }}</td>
+                <th>Date_fin</th>
+                <td>{{ carte.dateFin ? carte.dateFin|date('Y-m-d H:i:s') : '' }}</td>
             </tr>
             <tr>
-                <th>DateFin</th>
-                <td>{{ carte.dateFin ? carte.dateFin|date('Y-m-d') : '' }}</td>
+                <th>Date_fin_prevu</th>
+                <td>{{ carte.dateFinPrevu ? carte.dateFinPrevu|date('Y-m-d H:i:s') : '' }}</td>
             </tr>
             <tr>
-                <th>Etat</th>
-                <td>{{ carte.etat }}</td>
+                <th>Cloture</th>
+                <td>{{ carte.cloture ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>Fichier</th>
+                <td>{{ carte.fichier }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ carte.description }}</td>
             </tr>
         </tbody>
     </table>

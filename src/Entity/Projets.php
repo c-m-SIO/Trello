@@ -16,17 +16,17 @@ class Projets
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(nullable: true)]
-    private ?int $idProjet = null;
-
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(length: 255)]
     private ?string $titre = null;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $dateCreation = null;
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    private ?\DateTimeInterface $date_creation = null;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $dateFin = null;
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    private ?\DateTimeInterface $date_fin_prevu = null;
+
+    #[ORM\Column]
+    private ?bool $cloture = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $description = null;
@@ -35,15 +35,15 @@ class Projets
     private ?string $image = null;
 
     /**
-     * @var Collection<int, User>
+     * @var Collection<int, Users>
      */
-    #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'projets')]
+    #[ORM\ManyToMany(targetEntity: Users::class, inversedBy: 'projets')]
     private Collection $users;
 
     /**
-     * @var Collection<int, colonnes>
+     * @var Collection<int, Colonnes>
      */
-    #[ORM\OneToMany(targetEntity: colonnes::class, mappedBy: 'projets')]
+    #[ORM\OneToMany(targetEntity: Colonnes::class, mappedBy: 'projets')]
     private Collection $colonnes;
 
     public function __construct()
@@ -57,24 +57,12 @@ class Projets
         return $this->id;
     }
 
-    public function getIdProjet(): ?int
-    {
-        return $this->idProjet;
-    }
-
-    public function setIdProjet(?int $idProjet): static
-    {
-        $this->idProjet = $idProjet;
-
-        return $this;
-    }
-
     public function getTitre(): ?string
     {
         return $this->titre;
     }
 
-    public function setTitre(?string $titre): static
+    public function setTitre(string $titre): static
     {
         $this->titre = $titre;
 
@@ -83,24 +71,36 @@ class Projets
 
     public function getDateCreation(): ?\DateTimeInterface
     {
-        return $this->dateCreation;
+        return $this->date_creation;
     }
 
-    public function setDateCreation(?\DateTimeInterface $dateCreation): static
+    public function setDateCreation(\DateTimeInterface $date_creation): static
     {
-        $this->dateCreation = $dateCreation;
+        $this->date_creation = $date_creation;
 
         return $this;
     }
 
-    public function getDateFin(): ?\DateTimeInterface
+    public function getDateFinPrevu(): ?\DateTimeInterface
     {
-        return $this->dateFin;
+        return $this->date_fin_prevu;
     }
 
-    public function setDateFin(?\DateTimeInterface $dateFin): static
+    public function setDateFinPrevu(\DateTimeInterface $date_fin_prevu): static
     {
-        $this->dateFin = $dateFin;
+        $this->date_fin_prevu = $date_fin_prevu;
+
+        return $this;
+    }
+
+    public function isCloture(): ?bool
+    {
+        return $this->cloture;
+    }
+
+    public function setCloture(bool $cloture): static
+    {
+        $this->cloture = $cloture;
 
         return $this;
     }
@@ -130,41 +130,38 @@ class Projets
     }
 
     /**
-     * @return Collection<int, User>
+     * @return Collection<int, Users>
      */
     public function getUsers(): Collection
     {
         return $this->users;
     }
 
-    public function addUser(User $user): static
+    public function addUser(Users $user): static
     {
         if (!$this->users->contains($user)) {
             $this->users->add($user);
-            $user->addProjet($this);
         }
 
         return $this;
     }
 
-    public function removeUser(User $user): static
+    public function removeUser(Users $user): static
     {
-        if ($this->users->removeElement($user)) {
-            $user->removeProjet($this);
-        }
+        $this->users->removeElement($user);
 
         return $this;
     }
 
     /**
-     * @return Collection<int, colonnes>
+     * @return Collection<int, Colonnes>
      */
     public function getColonnes(): Collection
     {
         return $this->colonnes;
     }
 
-    public function addColonne(colonnes $colonne): static
+    public function addColonne(Colonnes $colonne): static
     {
         if (!$this->colonnes->contains($colonne)) {
             $this->colonnes->add($colonne);
@@ -174,7 +171,7 @@ class Projets
         return $this;
     }
 
-    public function removeColonne(colonnes $colonne): static
+    public function removeColonne(Colonnes $colonne): static
     {
         if ($this->colonnes->removeElement($colonne)) {
             // set the owning side to null (unless already changed)

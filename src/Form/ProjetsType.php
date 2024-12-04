@@ -3,7 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Projets;
-use App\Entity\User;
+use App\Entity\Users;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -14,18 +14,18 @@ class ProjetsType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('idProjet')
             ->add('titre')
-            ->add('dateCreation', null, [
+            ->add('date_creation', null, [
                 'widget' => 'single_text',
             ])
-            ->add('dateFin', null, [
+            ->add('date_fin_prevu', null, [
                 'widget' => 'single_text',
             ])
+            ->add('cloture')
             ->add('description')
             ->add('image')
             ->add('users', EntityType::class, [
-                'class' => User::class,
+                'class' => Users::class,
                 'choice_label' => 'id',
                 'multiple' => true,
             ])
