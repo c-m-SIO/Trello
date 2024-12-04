@@ -9,12 +9,13 @@
         <thead>
             <tr>
                 <th>Id</th>
-                <th>IdCarte</th>
                 <th>Titre</th>
-                <th>DateCreation</th>
-                <th>DateFinPrevu</th>
-                <th>DateFin</th>
-                <th>Etat</th>
+                <th>Date_creation</th>
+                <th>Date_fin</th>
+                <th>Date_fin_prevu</th>
+                <th>Cloture</th>
+                <th>Fichier</th>
+                <th>Description</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -22,12 +23,13 @@
         {% for carte in cartes %}
             <tr>
                 <td>{{ carte.id }}</td>
-                <td>{{ carte.idCarte }}</td>
                 <td>{{ carte.titre }}</td>
-                <td>{{ carte.dateCreation ? carte.dateCreation|date('Y-m-d') : '' }}</td>
-                <td>{{ carte.dateFinPrevu ? carte.dateFinPrevu|date('Y-m-d') : '' }}</td>
-                <td>{{ carte.dateFin ? carte.dateFin|date('Y-m-d') : '' }}</td>
-                <td>{{ carte.etat }}</td>
+                <td>{{ carte.dateCreation ? carte.dateCreation|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ carte.dateFin ? carte.dateFin|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ carte.dateFinPrevu ? carte.dateFinPrevu|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ carte.cloture ? 'Yes' : 'No' }}</td>
+                <td>{{ carte.fichier }}</td>
+                <td>{{ carte.description }}</td>
                 <td>
                     <a href="{{ path('app_cartes_show', {'id': carte.id}) }}">show</a>
                     <a href="{{ path('app_cartes_edit', {'id': carte.id}) }}">edit</a>
@@ -35,7 +37,7 @@
             </tr>
         {% else %}
             <tr>
-                <td colspan="8">no records found</td>
+                <td colspan="9">no records found</td>
             </tr>
         {% endfor %}
         </tbody>

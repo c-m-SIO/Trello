@@ -17,6 +17,7 @@ class ProjetsType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+
             ->add('titre', TextType::class, [
                 'attr' => [
                     'class' => 'w-full px-3 py-2 border border-gray-300 rounded-md'
