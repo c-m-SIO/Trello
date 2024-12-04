@@ -5,7 +5,7 @@ namespace App\Form;
 use App\Entity\Cartes;
 use App\Entity\Colonnes;
 use App\Entity\Tags;
-use App\Entity\User;
+use App\Entity\users;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -16,25 +16,26 @@ class CartesType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('idCarte')
             ->add('titre')
-            ->add('dateCreation', null, [
+            ->add('date_creation', null, [
                 'widget' => 'single_text',
             ])
-            ->add('dateFinPrevu', null, [
+            ->add('date_fin', null, [
                 'widget' => 'single_text',
             ])
-            ->add('dateFin', null, [
+            ->add('date_fin_prevu', null, [
                 'widget' => 'single_text',
             ])
-            ->add('etat')
-            ->add('tags', EntityType::class, [
-                'class' => Tags::class,
+            ->add('cloture')
+            ->add('fichier')
+            ->add('description')
+            ->add('users', EntityType::class, [
+                'class' => users::class,
                 'choice_label' => 'id',
                 'multiple' => true,
             ])
-            ->add('users', EntityType::class, [
-                'class' => User::class,
+            ->add('tags', EntityType::class, [
+                'class' => Tags::class,
                 'choice_label' => 'id',
                 'multiple' => true,
             ])

@@ -14,7 +14,6 @@ class ColonnesType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('idColonne')
             ->add('titre')
             ->add('projets', EntityType::class, [
                 'class' => Projets::class,

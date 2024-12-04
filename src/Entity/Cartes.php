@@ -16,43 +16,46 @@ class Cartes
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(nullable: true)]
-    private ?int $idCarte = null;
-
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(length: 255)]
     private ?string $titre = null;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $dateCreation = null;
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    private ?\DateTimeInterface $date_creation = null;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $dateFinPrevu = null;
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $date_fin = null;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $dateFin = null;
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    private ?\DateTimeInterface $date_fin_prevu = null;
+
+    #[ORM\Column]
+    private ?bool $cloture = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $etat = null;
+    private ?string $fichier = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $description = null;
 
     /**
-     * @var Collection<int, tags>
+     * @var Collection<int, users>
      */
-    #[ORM\ManyToMany(targetEntity: Tags::class, mappedBy: 'idCartes')]
-    private Collection $tags;
-
-    /**
-     * @var Collection<int, User>
-     */
-    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'cartes')]
+    #[ORM\ManyToMany(targetEntity: users::class, inversedBy: 'cartes')]
     private Collection $users;
+
+    /**
+     * @var Collection<int, Tags>
+     */
+    #[ORM\ManyToMany(targetEntity: Tags::class, inversedBy: 'cartes')]
+    private Collection $tags;
 
     #[ORM\ManyToOne(inversedBy: 'cartes')]
     private ?Colonnes $colonnes = null;
 
     public function __construct()
     {
-        $this->tags = new ArrayCollection();
         $this->users = new ArrayCollection();
+        $this->tags = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -60,24 +63,12 @@ class Cartes
         return $this->id;
     }
 
-    public function getIdCarte(): ?int
-    {
-        return $this->idCarte;
-    }
-
-    public function setIdCarte(?int $idCarte): static
-    {
-        $this->idCarte = $idCarte;
-
-        return $this;
-    }
-
     public function getTitre(): ?string
     {
         return $this->titre;
     }
 
-    public function setTitre(?string $titre): static
+    public function setTitre(string $titre): static
     {
         $this->titre = $titre;
 
@@ -86,88 +77,85 @@ class Cartes
 
     public function getDateCreation(): ?\DateTimeInterface
     {
-        return $this->dateCreation;
+        return $this->date_creation;
     }
 
-    public function setDateCreation(?\DateTimeInterface $dateCreation): static
+    public function setDateCreation(\DateTimeInterface $date_creation): static
     {
-        $this->dateCreation = $dateCreation;
-
-        return $this;
-    }
-
-    public function getDateFinPrevu(): ?\DateTimeInterface
-    {
-        return $this->dateFinPrevu;
-    }
-
-    public function setDateFinPrevu(?\DateTimeInterface $dateFinPrevu): static
-    {
-        $this->dateFinPrevu = $dateFinPrevu;
+        $this->date_creation = $date_creation;
 
         return $this;
     }
 
     public function getDateFin(): ?\DateTimeInterface
     {
-        return $this->dateFin;
+        return $this->date_fin;
     }
 
-    public function setDateFin(?\DateTimeInterface $dateFin): static
+    public function setDateFin(?\DateTimeInterface $date_fin): static
     {
-        $this->dateFin = $dateFin;
+        $this->date_fin = $date_fin;
 
         return $this;
     }
 
-    public function getEtat(): ?string
+    public function getDateFinPrevu(): ?\DateTimeInterface
     {
-        return $this->etat;
+        return $this->date_fin_prevu;
     }
 
-    public function setEtat(?string $etat): static
+    public function setDateFinPrevu(\DateTimeInterface $date_fin_prevu): static
     {
-        $this->etat = $etat;
+        $this->date_fin_prevu = $date_fin_prevu;
+
+        return $this;
+    }
+
+    public function isCloture(): ?bool
+    {
+        return $this->cloture;
+    }
+
+    public function setCloture(bool $cloture): static
+    {
+        $this->cloture = $cloture;
+
+        return $this;
+    }
+
+    public function getFichier(): ?string
+    {
+        return $this->fichier;
+    }
+
+    public function setFichier(?string $fichier): static
+    {
+        $this->fichier = $fichier;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): static
+    {
+        $this->description = $description;
 
         return $this;
     }
 
     /**
-     * @return Collection<int, tags>
-     */
-    public function getIdTags(): Collection
-    {
-        return $this->tags;
-    }
-
-    public function addIdTag(Tags $tag): static
-    {
-        if (!$this->tags->contains($tag)) {
-            $this->tags->add($tag);
-            $tag->addIdCarte($this);
-        }
-
-        return $this;
-    }
-
-    public function removeIdTag(Tags $tag): static
-    {
-        if ($this->tags->removeElement($tag)) {
-            $tag->removeIdCarte($this);
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, User>
+     * @return Collection<int, users>
      */
     public function getUsers(): Collection
     {
         return $this->users;
     }
 
-    public function addUser(User $user): static
+    public function addUser(users $user): static
     {
         if (!$this->users->contains($user)) {
             $this->users->add($user);
@@ -176,9 +164,33 @@ class Cartes
         return $this;
     }
 
-    public function removeUser(User $user): static
+    public function removeUser(users $user): static
     {
         $this->users->removeElement($user);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Tags>
+     */
+    public function getTags(): Collection
+    {
+        return $this->tags;
+    }
+
+    public function addTag(Tags $tag): static
+    {
+        if (!$this->tags->contains($tag)) {
+            $this->tags->add($tag);
+        }
+
+        return $this;
+    }
+
+    public function removeTag(Tags $tag): static
+    {
+        $this->tags->removeElement($tag);
 
         return $this;
     }

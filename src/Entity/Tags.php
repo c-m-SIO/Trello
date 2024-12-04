@@ -15,21 +15,21 @@ class Tags
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(nullable: true)]
-    private ?int $idTag = null;
-
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(length: 255)]
     private ?string $libelle = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $couleur = null;
 
     /**
      * @var Collection<int, Cartes>
      */
-    #[ORM\ManyToMany(targetEntity: Cartes::class, inversedBy: 'idTags')]
-    private Collection $idCartes;
+    #[ORM\ManyToMany(targetEntity: Cartes::class, mappedBy: 'tags')]
+    private Collection $cartes;
 
     public function __construct()
     {
-        $this->idCartes = new ArrayCollection();
+        $this->cartes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -37,26 +37,26 @@ class Tags
         return $this->id;
     }
 
-    public function getIdTag(): ?int
-    {
-        return $this->idTag;
-    }
-
-    public function setIdTag(?int $idTag): static
-    {
-        $this->idTag = $idTag;
-
-        return $this;
-    }
-
     public function getLibelle(): ?string
     {
         return $this->libelle;
     }
 
-    public function setLibelle(?string $libelle): static
+    public function setLibelle(string $libelle): static
     {
         $this->libelle = $libelle;
+
+        return $this;
+    }
+
+    public function getCouleur(): ?string
+    {
+        return $this->couleur;
+    }
+
+    public function setCouleur(string $couleur): static
+    {
+        $this->couleur = $couleur;
 
         return $this;
     }
@@ -64,23 +64,26 @@ class Tags
     /**
      * @return Collection<int, Cartes>
      */
-    public function getIdCartes(): Collection
+    public function getCartes(): Collection
     {
-        return $this->idCartes;
+        return $this->cartes;
     }
 
-    public function addIdCarte(Cartes $idCarte): static
+    public function addCarte(Cartes $carte): static
     {
-        if (!$this->idCartes->contains($idCarte)) {
-            $this->idCartes->add($idCarte);
+        if (!$this->cartes->contains($carte)) {
+            $this->cartes->add($carte);
+            $carte->addTag($this);
         }
 
         return $this;
     }
 
-    public function removeIdCarte(Cartes $idCarte): static
+    public function removeCarte(Cartes $carte): static
     {
-        $this->idCartes->removeElement($idCarte);
+        if ($this->cartes->removeElement($carte)) {
+            $carte->removeTag($this);
+        }
 
         return $this;
     }

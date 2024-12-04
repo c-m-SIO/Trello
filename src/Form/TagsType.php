@@ -14,9 +14,9 @@ class TagsType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('idTag')
             ->add('libelle')
-            ->add('idCartes', EntityType::class, [
+            ->add('couleur')
+            ->add('cartes', EntityType::class, [
                 'class' => Cartes::class,
                 'choice_label' => 'id',
                 'multiple' => true,

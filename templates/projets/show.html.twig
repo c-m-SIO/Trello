@@ -12,20 +12,20 @@
                 <td>{{ projet.id }}</td>
             </tr>
             <tr>
-                <th>IdProjet</th>
-                <td>{{ projet.idProjet }}</td>
-            </tr>
-            <tr>
                 <th>Titre</th>
                 <td>{{ projet.titre }}</td>
             </tr>
             <tr>
-                <th>DateCreation</th>
-                <td>{{ projet.dateCreation ? projet.dateCreation|date('Y-m-d') : '' }}</td>
+                <th>Date_creation</th>
+                <td>{{ projet.dateCreation ? projet.dateCreation|date('Y-m-d H:i:s') : '' }}</td>
             </tr>
             <tr>
-                <th>DateFin</th>
-                <td>{{ projet.dateFin ? projet.dateFin|date('Y-m-d') : '' }}</td>
+                <th>Date_fin_prevu</th>
+                <td>{{ projet.dateFinPrevu ? projet.dateFinPrevu|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Cloture</th>
+                <td>{{ projet.cloture ? 'Yes' : 'No' }}</td>
             </tr>
             <tr>
                 <th>Description</th>
