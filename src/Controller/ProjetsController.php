@@ -46,6 +46,7 @@ final class ProjetsController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $projet->setDateCreation(new \DateTime());
             $entityManager->persist($projet);
             $entityManager->flush();
             
