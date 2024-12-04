@@ -16,6 +16,8 @@ class ProjetsRepository extends ServiceEntityRepository
         parent::__construct($registry, Projets::class);
     }
 
+
+
     //    /**
     //     * @return Projets[] Returns an array of Projets objects
     //     */
@@ -40,4 +42,6 @@ class ProjetsRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+
+
 }

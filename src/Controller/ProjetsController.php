@@ -14,13 +14,29 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/projets')]
 final class ProjetsController extends AbstractController
 {
-    #[Route(name: 'app_projets_index', methods: ['GET'])]
-    public function index(ProjetsRepository $projetsRepository): Response
+    #[Route(name: 'app_projets_index', methods: ['GET', 'POST'])]
+    public function index(ProjetsRepository $projetsRepository, Request $request, EntityManagerInterface $entityManager): Response
     {
+        $projet = new Projets();
+        $form = $this->createForm(ProjetsType::class, $projet);
+        $form->handleRequest($request);
+
+            if ($form->isSubmitted() && $form->isValid()) {
+                // $projet->addUser($this->user);
+                $entityManager->persist($projet);
+                $entityManager->flush();
+                
+
+                return $this->redirectToRoute('app_projets_index', [], Response::HTTP_SEE_OTHER);
+            }
+
         return $this->render('projets/index.html.twig', [
+            'projet' => $projet,
+            'form' => $form->createView(),
             'projets' => $projetsRepository->findAll(),
         ]);
     }
+
 
     #[Route('/new', name: 'app_projets_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
@@ -32,13 +48,14 @@ final class ProjetsController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($projet);
             $entityManager->flush();
+            
 
             return $this->redirectToRoute('app_projets_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('projets/new.html.twig', [
             'projet' => $projet,
-            'form' => $form,
+            'form' => $form->createView(),
         ]);
     }
 

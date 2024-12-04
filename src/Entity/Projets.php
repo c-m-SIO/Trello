@@ -41,9 +41,9 @@ class Projets
     private Collection $users;
 
     /**
-     * @var Collection<int, colonnes>
+     * @var Collection<int, Colonnes>
      */
-    #[ORM\OneToMany(targetEntity: colonnes::class, mappedBy: 'projets')]
+    #[ORM\OneToMany(targetEntity: Colonnes::class, mappedBy: 'projets')]
     private Collection $colonnes;
 
     public function __construct()
@@ -157,14 +157,14 @@ class Projets
     }
 
     /**
-     * @return Collection<int, colonnes>
+     * @return Collection<int, Colonnes>
      */
     public function getColonnes(): Collection
     {
         return $this->colonnes;
     }
 
-    public function addColonne(colonnes $colonne): static
+    public function addColonne(Colonnes $colonne): static
     {
         if (!$this->colonnes->contains($colonne)) {
             $this->colonnes->add($colonne);
@@ -174,7 +174,7 @@ class Projets
         return $this;
     }
 
-    public function removeColonne(colonnes $colonne): static
+    public function removeColonne(Colonnes $colonne): static
     {
         if ($this->colonnes->removeElement($colonne)) {
             // set the owning side to null (unless already changed)

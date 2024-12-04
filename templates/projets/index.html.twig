@@ -1,45 +1,85 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Projets index{% endblock %}
+{% block title %}Liste Projets{% endblock %}
+
+{% block stylesheets %}
+    <link href="{{asset('/css/projets.css')}}" rel="stylesheet" />
+{% endblock %}
 
 {% block body %}
-    <h1>Projets index</h1>
+<!-- Menu -->
+    <div class="flex items-center flex-shrink-0 w-full h-16 px-10 bg-white bg-opacity-75">
+        <img src="logo.png" class="w-12 h-12" alt="FlowKan Logo">
+        <input class="flex items-center h-10 px-4 ml-10 text-sm bg-gray-200 rounded-full focus:outline-none focus:ring" type="search" placeholder="Rechercher...">
+        <div class="ml-10">
+            <a class="mx-2 text-sm font-semibold text-indigo-700" href="#">Projets</a>
+            <a class="mx-2 text-sm font-semibold text-gray-600 hover:text-indigo-700" href="#">Équipe</a>
+            <a class="mx-2 text-sm font-semibold text-gray-600 hover:text-indigo-700" href="#">Activité</a>
+        </div>
+        <button class="flex items-center justify-center w-8 h-8 ml-auto overflow-hidden rounded-full cursor-pointer">
+            <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Profile">
+        </button>
+    </div>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>IdProjet</th>
-                <th>Titre</th>
-                <th>DateCreation</th>
-                <th>DateFin</th>
-                <th>Description</th>
-                <th>Image</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for projet in projets %}
-            <tr>
-                <td>{{ projet.id }}</td>
-                <td>{{ projet.idProjet }}</td>
-                <td>{{ projet.titre }}</td>
-                <td>{{ projet.dateCreation ? projet.dateCreation|date('Y-m-d') : '' }}</td>
-                <td>{{ projet.dateFin ? projet.dateFin|date('Y-m-d') : '' }}</td>
-                <td>{{ projet.description }}</td>
-                <td>{{ projet.image }}</td>
-                <td>
-                    <a href="{{ path('app_projets_show', {'id': projet.id}) }}">show</a>
-                    <a href="{{ path('app_projets_edit', {'id': projet.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="8">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+    <!-- Contenu -->
+    <div class="container mx-auto px-4 py-8">
+        <div class="flex justify-between items-center mb-6">
+            <h1 class="text-2xl font-bold">Mes Projets</h1>
+            <button onclick="openModal()" class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 flex items-center">
+                <svg class="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+                </svg>
+                Nouveau Projet
+            </button>
+        </div>
 
-    <a href="{{ path('app_projets_new') }}">Create new</a>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="projects-grid">
+            <!-- Les projets seront ajoutés ici -->
+            {% for projet in projets %}
+                <div class="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow">
+                    <div class="flex justify-between items-start">
+                        <span class="px-3 py-1 text-sm font-semibold text-indigo-500 bg-indigo-100 rounded-full">Nouveau</span>
+                            <button class="text-gray-400 hover:text-gray-600">
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z"/>
+                                </svg>
+                            </button>
+                    </div>
+                    <h3 class="mt-4 text-lg font-semibold">{{projet.titre}}</h3>
+                    <p class="mt-2 text-gray-600">{{projet.description}}</p>
+                    <div class="mt-4 flex justify-between items-center">
+                        <div class="flex space-x-4 text-sm text-gray-500">
+                            <span>0 tâches</span>
+                            <span>0 membres</span>
+                        </div>
+                        <a href="{{ path('app_projets_show', {'id': projet.id }) }}" class="text-indigo-600 hover:text-indigo-800">Voir le projet →</a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal" id="projectModal">
+        <div class="bg-white rounded-lg p-8 max-w-md w-full">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-semibold">Nouveau Projet</h3>
+                <button onclick="closeModal()" class="text-gray-500 hover:text-gray-700">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
+            {# {{ form_start(form) }}
+                {{ form_widget(form )}}
+                <button type="submit" class="px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700">Créer</button>
+            {{ form_end(form) }} #}
+
+            {% include '/projets/new.html.twig' %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{asset('/js/projets.js')}}"></script>
 {% endblock %}
