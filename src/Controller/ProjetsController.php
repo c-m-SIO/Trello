@@ -3,7 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Projets;
+use App\Entity\Colonnes;
+use App\Entity\Cartes;
 use App\Form\ProjetsType;
+use App\Form\ColonnesType;
+use App\Form\CartesType;
 use App\Repository\ProjetsRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -60,11 +64,51 @@ final class ProjetsController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_projets_show', methods: ['GET'])]
-    public function show(Projets $projet): Response
+    #[Route('/{id}', name: 'app_projets_show', methods: ['POST', 'GET'])]
+    public function show(Projets $projet, Request $request, EntityManagerInterface $entityManager, ProjetsRepository $projetsRepository): Response
     {
+        $colonne = new Colonnes();
+        $colonne->setProjets($projet);
+
+        $carte = new Cartes();
+        $formCarte = $this->createForm(CartesType::class, $carte);
+        $formCarte->handleRequest($request);
+
+        $formColonne = $this->createForm(ColonnesType::class, $colonne);
+        $formColonne->handleRequest($request);
+
+        if ($formColonne->isSubmitted() && $formColonne->isValid()) {
+            $entityManager->persist($colonne);
+            $entityManager->flush();
+            
+
+            return $this->redirectToRoute('app_projets_show', ['id' => $projet->getId()], Response::HTTP_SEE_OTHER);
+        }
+
+        if ($formCarte->isSubmitted() && $formCarte->isValid()) {
+            $entityManager->persist($carte);
+            $entityManager->flush();
+            
+
+            return $this->redirectToRoute('app_projets_show', ['id' => $projet->getId()], Response::HTTP_SEE_OTHER);
+        }
+
+        // foreach ($projet->getColonnes() as $uneColonne )
+        // {
+        //     foreach ($uneColonne->getCartes() as $uneCarte)
+        //     {
+        //         dd($uneCarte);
+        //     }
+        // }
+
+        
+
         return $this->render('projets/show.html.twig', [
             'projet' => $projet,
+            'formColonne' => $formColonne->createView(),
+            'formCarte' => $formCarte->createView(),
+            'colonnes' => $projet->getColonnes(),
+            // 'cartes' => $projet->getColonnes()->getCartes(),
         ]);
     }
 

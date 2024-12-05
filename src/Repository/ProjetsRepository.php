@@ -17,7 +17,6 @@ class ProjetsRepository extends ServiceEntityRepository
     }
 
 
-
     //    /**
     //     * @return Projets[] Returns an array of Projets objects
     //     */

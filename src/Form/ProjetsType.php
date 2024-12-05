@@ -4,7 +4,7 @@ namespace App\Form;
 
 use App\Entity\Projets;
 use App\Repository\ProjetsRepository;
-use App\Entity\User;
+use App\Entity\Users;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -35,7 +35,7 @@ class ProjetsType extends AbstractType
                 ]
             ])
             ->add('submit', SubmitType::class, [
-                'label' => 'Créer',
+                'label' => 'Créer projet',
                 'attr' => [
                     'id' => 'submit-button',
                     'class' => 'px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700',
