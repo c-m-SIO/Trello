@@ -22,7 +22,7 @@ class Projets
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $date_creation = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $date_fin_prevu = null;
 
     #[ORM\Column]
@@ -50,6 +50,8 @@ class Projets
     {
         $this->users = new ArrayCollection();
         $this->colonnes = new ArrayCollection();
+        $this->date_creation = new \DateTime();
+        $this->cloture = false;
     }
 
     public function getId(): ?int

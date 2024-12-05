@@ -38,9 +38,9 @@ class Cartes
     private ?string $description = null;
 
     /**
-     * @var Collection<int, users>
+     * @var Collection<int, Users>
      */
-    #[ORM\ManyToMany(targetEntity: users::class, inversedBy: 'cartes')]
+    #[ORM\ManyToMany(targetEntity: Users::class, inversedBy: 'cartes')]
     private Collection $users;
 
     /**
@@ -148,14 +148,14 @@ class Cartes
     }
 
     /**
-     * @return Collection<int, users>
+     * @return Collection<int, Users>
      */
     public function getUsers(): Collection
     {
         return $this->users;
     }
 
-    public function addUser(users $user): static
+    public function addUser(Users $user): static
     {
         if (!$this->users->contains($user)) {
             $this->users->add($user);
@@ -164,7 +164,7 @@ class Cartes
         return $this;
     }
 
-    public function removeUser(users $user): static
+    public function removeUser(Users $user): static
     {
         $this->users->removeElement($user);
 
