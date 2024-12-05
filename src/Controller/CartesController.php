@@ -26,10 +26,10 @@ final class CartesController extends AbstractController
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $carte = new Cartes();
-        $form = $this->createForm(CartesType::class, $carte);
-        $form->handleRequest($request);
+        $formCarte = $this->createForm(CartesType::class, $carte);
+        $formCarte->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($formCarte->isSubmitted() && $formCarte->isValid()) {
             $entityManager->persist($carte);
             $entityManager->flush();
 
@@ -38,7 +38,7 @@ final class CartesController extends AbstractController
 
         return $this->render('cartes/new.html.twig', [
             'carte' => $carte,
-            'form' => $form,
+            'formCarte' => $formCarte,
         ]);
     }
 

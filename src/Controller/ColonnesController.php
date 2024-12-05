@@ -26,10 +26,10 @@ final class ColonnesController extends AbstractController
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $colonne = new Colonnes();
-        $form = $this->createForm(ColonnesType::class, $colonne);
-        $form->handleRequest($request);
+        $formColonne = $this->createForm(ColonnesType::class, $colonne);
+        $formColonne->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($formColonne->isSubmitted() && $formColonne->isValid()) {
             $entityManager->persist($colonne);
             $entityManager->flush();
 
@@ -38,7 +38,7 @@ final class ColonnesController extends AbstractController
 
         return $this->render('colonnes/new.html.twig', [
             'colonne' => $colonne,
-            'form' => $form,
+            'formColonne' => $formColonne,
         ]);
     }
 

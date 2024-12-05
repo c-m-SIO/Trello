@@ -1,4 +1,26 @@
-{{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
-{{ form_end(form) }}
+{{ form_start(formCarte) }}
+    <div class="form-group">
+        {{ form_row(formCarte.titre) }}
+    </div>
+    <div class="form-group" style="margin-top: 20px;">
+        {{ form_row(formCarte.description) }}
+    </div>
+    <div class="form-group"style="margin-top: 20px;">
+        {{ form_row(formCarte.date_fin_prevu) }}
+    </div>
+    <div class="form-group"style="margin-top: 20px;">
+        {{ form_row(formCarte.date_creation) }}
+    </div>
+    {# <div class="form-group"style="margin-top: 20px;">
+        {{ form_row(formCarte.tags) }}
+    </div> #}
+    <div class="form-group"style="margin-top: 20px;">
+        {{ form_row(formCarte.colonnes) }}
+    </div>
+    {# <div class="form-group"style="margin-top: 20px;">
+        {{ form_row(formCarte.users) }}
+    </div> #}
+    <div class="form-group"style="margin-top: 20px;">
+        {{ form_row(formCarte.submit) }}
+    </div>
+{{ form_end(formCarte) }}
