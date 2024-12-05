@@ -5,10 +5,14 @@ namespace App\Entity;
 use App\Repository\UsersRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: UsersRepository::class)]
-class Users
+#[UniqueEntity(fields: ['email'], message: 'There is already an account with this mail')]
+class Users implements UserInterface,PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -21,7 +25,7 @@ class Users
     #[ORM\Column(length: 255)]
     private ?string $prenom = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, unique: true)]
     private ?string $email = null;
 
     #[ORM\Column(length: 255)]
@@ -95,7 +99,12 @@ class Users
         return $this;
     }
 
-    public function getMdp(): ?string
+    public function getUserIdentifier(): string
+    {
+        return $this->email; // Vous pouvez aussi retourner un autre champ unique, comme le nom d'utilisateur
+    }
+
+    public function getPassword(): ?string
     {
         return $this->mdp;
     }
@@ -141,6 +150,12 @@ class Users
         $this->poste = $poste;
 
         return $this;
+    }
+
+    public function getRoles(): array
+    {
+        // Retourne les rôles de l'utilisateur, par exemple :
+        return ['ROLE_USER'];
     }
 
     /**
@@ -195,5 +210,17 @@ class Users
         }
 
         return $this;
+    }
+
+    public function eraseCredentials(): void
+    {
+        // Laissez vide si vous ne stockez pas de données sensibles supplémentaires
+    }
+
+    public function getSalt(): ?string
+    {
+        // Symfony 5.3 et versions ultérieures n'ont plus besoin de cette méthode
+        // Si vous utilisez bcrypt ou argon2, vous pouvez laisser cette méthode vide
+        return null;
     }
 }
